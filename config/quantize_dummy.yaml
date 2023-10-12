@@ -1,0 +1,20 @@
+main:
+  model_path: Erland/tinyllama-1.1B-chat-v0.3-dummy
+  device_map: auto
+  # fuse_layers: True
+  low_cpu_mem_usage: True
+
+tokenizer:
+  pretrained_model_name_or_path: Erland/tinyllama-1.1B-chat-v0.3-dummy 
+
+quant_config:
+  zero_point: true
+  q_group_size: 128
+  w_bit: 4
+  version: GEMM
+
+extra:
+  quant_path: "./tinyllama-1.1B-chat-v0.3-dummy-lora"
+  calib_data: "nickrosh/Evol-Instruct-Code-80k-v1"
+  text_column: output
+

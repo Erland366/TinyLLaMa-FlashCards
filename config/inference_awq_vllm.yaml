@@ -1,0 +1,13 @@
+main:
+  model_name_or_path: TheBloke/TinyLlama-1.1B-Chat-v0.3-AWQ
+  quantization: awq
+  dtype: half
+
+sampling:
+  temperature: 0.8
+  top_p: 0.95
+
+extra:
+  inference_type: regular
+  inference_service: awq
+  vllm: true

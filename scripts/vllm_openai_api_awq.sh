@@ -1,0 +1,1 @@
+python -u -m vllm.entrypoints.openai.api_server --model=Erland/tinyllama-1.1B-chat-v0.3-dummy-AWQ --dtype float16 --quantization awq --tensor-parallel-size 1 --tokenizer hf-internal-testing/llama-tokenizer

@@ -1,0 +1,33 @@
+main:
+  model_name_or_path: Erland/tinyllama-1.1B-chat-v0.3-dummy-AWQ
+  fuse_layers: true
+  safetensors: true
+  # max_new_tokens: 100
+  # trust_remote_code: false
+
+tokenizer:
+  pretrained_model_name_or_path: 
+  trust_remote_code: false
+  
+# pipeline:
+#   do_sample: true
+#   temperature: 0.1
+#   top_p: 0.9
+#   num_return_sequences: 1
+#   max_new_tokens: 100
+
+# streaming:
+#   max_new_tokens: 100
+
+regular:
+  penalty_alpha: 0.6
+  do_sample: true
+  top_k: 5
+  temperature: 0.5
+  repetition_penalty: 1.2
+  max_new_tokens: 100
+
+extra:
+  inference_type: regular
+  inference_service: awq
+  template: anki_jsonl
