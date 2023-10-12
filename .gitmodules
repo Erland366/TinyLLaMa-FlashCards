@@ -1,0 +1,3 @@
+[submodule "streaming-llm"]
+	path = streaming-llm
+	url = https://github.com/Erland366/streaming-llm.git
