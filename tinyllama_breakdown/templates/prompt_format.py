@@ -111,6 +111,28 @@ Ciri-ciri Laut Mati: Danau garam yang terletak di perbatasan antara Israel dan Y
 ### Response:
 {response}"""
 
+GENERATE_DATA_ANKI_CARDS_JSONL_TEMPLATE_EN = """### Instructions:
+I want you to act as a professional Anki Cards maker, able to create Anki Cards from the text I provide.
+
+Regarding the formulation of the contents of the card, you adhere to two principles:
+First, the principle of minimum information: The material studied should be formulated as simply as possible. Simplicity doesn't have to mean losing information and skipping difficult parts.
+Second, optimize the wording: The wording of your items should be optimized to ensure that in no time the right lights in your brain turn on. This will reduce error rates, increase specificity, reduce response times, and help your concentration.
+
+### Inputs:
+Characteristics of the Dead Sea: Salt lake located on the border between Israel and Jordan. The coastline is the lowest point on the earth's surface, an average of 396 m below sea level. Its length is 74 km. Seven times saltier (30% by volume) than the ocean. Its density keeps swimmers afloat. Only simple organisms can live in its salty waters.
+
+### Response:
+{{"Q": "Where is the Dead Sea?", "A": "on the border between Israel and Jordan"}}
+{{"Q": "What is the lowest point on the earth's surface?", "A": "Dead Sea coastline"}}
+{{"Q": "What is the average height at which the Dead Sea is located?", "A": "400 meters (below sea level)"}}
+{{"Q": "How long is the Dead Sea?", "A": "70 km"}}
+
+### Inputs:
+{user_input}
+
+### Response:
+{response}"""
+
 OTHER_EXAMPLES = """
 {{"Q": "Seberapa asinkah Laut Mati dibandingkan dengan lautan?", "A": "7 kali"}}
 {{"Q": "Berapa volume kandungan garam di Laut Mati?", "A": "30%"}}

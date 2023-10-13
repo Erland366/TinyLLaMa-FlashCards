@@ -7,24 +7,34 @@ from langchain.prompts.chat import (
 )
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
-inference_server_url = "http://localhost:5000/v1"
-
-chat = ChatOpenAI(
-    model="Erland/tinyllama-1.1B-chat-v0.3-dummy-AWQ",
-    openai_api_key="EMPTY",
-    openai_api_base=inference_server_url,
-    max_tokens=1024,
-    temperature=0,
-    model_kwargs={"stop": ["."]},
+from tinyllama_breakdown.templates.prompt_format import (
+    GENERATE_DATA_ANKI_CARDS_JSONL_TEMPLATE,
 )
 
-messages = [
-    SystemMessage(
-        content="You are a helpful assistant that translates English to Italian."
-    ),
-    HumanMessage(
-        content="Translate the following sentence from English to Italian: I love programming."
-    ),
-]
-result = chat(messages)
-print(result)
+
+def langchain_inference():
+    example_prompt = """Sekolah menengah atas negeri dan swasta tersebar di berbagai wilayah di tanah air. SMA merupakan salah satu pilihan yang banyak dipilih pelajar selepas lulus SMP. Melanjutkan sekolah SMA lebih berpeluang untuk masuk ke perguruan tinggi negeri dengan memilih jurusan kuliah yang diminatinya.
+
+    Pemilihan jurusan bukan hanya dilakukan pada jenjang pendidikan pada SMK. Namun juga berlaku pada siswa siswi yang memilih masuk ke SMA. Jurusan yang terdapat pada SMA, antara lain: jurusan IPA, IPS dan jurusan bahasa.
+    """  # noqa: E50
+
+    inference_server_url = "http://localhost:8000/v1"
+
+    chat = ChatOpenAI(
+        model="Erland/tinyllama-1.1B-chat-v0.3-dummy-AWQ",
+        openai_api_key="EMPTY",
+        openai_api_base=inference_server_url,
+        max_tokens=500,
+        temperature=0,
+        # model_kwargs={"stop": ["."]},
+    )
+
+    messages = [
+        HumanMessage(
+            content=GENERATE_DATA_ANKI_CARDS_JSONL_TEMPLATE.format(
+                input_user=example_prompt, response=""
+            )
+        ),
+    ]
+    result = chat(messages)
+    return result

@@ -6,8 +6,15 @@ import requests
 from tinyllama_breakdown.quantization.awq_quantization import QuantizeAWQ
 from tinyllama_breakdown.templates.prompt_format import (
     GENERATE_DATA_ANKI_CARDS_JSONL_TEMPLATE,
+    GENERATE_DATA_ANKI_CARDS_JSONL_TEMPLATE_EN,
 )
-from tinyllama_breakdown.utils import TokenCounter, parse_output, read_yaml_file
+from tinyllama_breakdown.utils import (
+    TokenCounter,
+    compare_token_id_vs_en,
+    parse_output,
+    read_yaml_file,
+)
+from tinyllama_breakdown.vllm.langchain_chat import langchain_inference
 
 EXAMPLE_INPUT = """### Instruction:
 Saya ingin Anda berperan sebagai pembuat Anki Cards profesional, mampu membuat Anki Cards dari teks yang saya berikan.
@@ -41,6 +48,39 @@ Pemilihan jurusan bukan hanya dilakukan pada jenjang pendidikan pada SMK. Namun 
 {"Q": "Bagaimana Pemilihan Jurusan Dikelilingkingkan Pada Jenjang Pendidikan Pada SMK?", "A": "Hanya dilakukan pada jenjang pendidikan pada SMK."}
 {"Q": "Bisa Juga Berlangsung Pada Siswa Siswi Yang Memilih Masuk Ke SMA?", "A": "Juga."}
 {"Q": "Apakah Jurusan Yang Terdapat Pada SMA Antara Lain Jurusan IPA, IPS", "A": "Ya."}"""
+
+EXAMPLE_INPUT_EN = """### Instructions:
+I want you to act as a professional Anki Cards maker, able to create Anki Cards from the text I provide.
+
+Regarding the formulation of the contents of the card, you adhere to two principles:
+First, the principle of minimum information: The material studied should be formulated as simply as possible. Simplicity doesn't have to mean losing information and skipping difficult parts.
+Second, optimize the wording: The wording of your items should be optimized to ensure that in no time the right lights in your brain turn on. This will reduce error rates, increase specificity, reduce response times, and help your concentration.
+
+### Inputs:
+Characteristics of the Dead Sea: Salt lake located on the border between Israel and Jordan. The coastline is the lowest point on the earth's surface, an average of 396 m below sea level. Its length is 74 km. Seven times saltier (30% by volume) than the ocean. Its density keeps swimmers afloat. Only simple organisms can live in its salty waters.
+
+### Response:
+{"Q": "Where is the Dead Sea?", "A": "on the border between Israel and Jordan"}
+{"Q": "What is the lowest point on the earth's surface?", "A": "Dead Sea coastline"}
+{"Q": "What is the average height at which the Dead Sea is located?", "A": "400 meters (below sea level)"}
+{"Q": "How long is the Dead Sea?", "A": "70 km"}
+{"Q": "How salty is the Dead Sea compared to the ocean?", "A": "7 times"}
+{"Q": "What is the volume of salt content in the Dead Sea?", "A": "30%"}
+{"Q": "Why can the Dead Sea keep swimmers afloat?", "A": "because it has a high salt content"}
+{"Q": "Why is the Dead Sea called the Dead Sea?", "A": "because only simple organisms can live in it"}
+{"Q": "Why can only simple organisms live in the Dead Sea?", "A": "because the salt content is high"}
+
+### Inputs:
+Public and private high schools are spread across various regions in the country. High school is one of the choices that many students choose after graduating from middle school. Continuing high school has a greater chance of entering a state university by choosing a college major that interests them.
+
+Choosing a major is not only done at the vocational school level. However, this also applies to female students who choose to enter high school. The majors in high school include: science major, social studies and language major.
+
+
+### Response:
+{"Q": "Are Public and Private High Schools Widespread in the Country?", "A": "Yes."}
+{"Q": "How is the choice of major related to the education level at vocational school?", "A": "Only carried out at the education level at vocational school."}
+{"Q": "Can This Also Happen to Female Students Who Choose to Enter High School?", "A": "Also."}
+{"Q": "Are there majors in high school, including science and social studies", "A": "Yes."}"""
 
 
 def quantize_model():
@@ -81,13 +121,8 @@ def request_to_my_model():
     print(parse_output(data[0]["generated_text"]))
 
 
-def example_tokenizer_count():
-    count = TokenCounter.count("Erland/tinyllama-1.1B-chat-v0.3-dummy", EXAMPLE_INPUT)
-    print(count)
-
-
 def main() -> None:
-    request_to_my_model()
+    compare_token_id_vs_en(EXAMPLE_INPUT, EXAMPLE_INPUT_EN)
 
 
 if __name__ == "__main__":

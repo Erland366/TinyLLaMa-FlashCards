@@ -84,6 +84,12 @@ def list_of_json_to_jsonl(list_of_json: list[dict], output_path: str) -> None:
             f.write(json_str + "\n")
 
 
+def compare_token_id_vs_en(input_id, input_en):
+    count_id = TokenCounter.count("Erland/tinyllama-1.1B-chat-v0.3-dummy", input_id)
+    count_en = TokenCounter.count("Erland/tinyllama-1.1B-chat-v0.3-dummy", input_en)
+    print(count_id, count_en)
+
+
 class TokenCounter:
     @classmethod
     def count(self, tokenizer_name_or_path: str, text: str) -> None:
