@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 
@@ -14,6 +15,7 @@ from tinyllama_breakdown.utils import (
     parse_output,
     read_yaml_file,
 )
+from tinyllama_breakdown.vllm.api_client import vanilla_inference
 from tinyllama_breakdown.vllm.langchain_chat import langchain_inference
 
 EXAMPLE_INPUT = """### Instruction:
@@ -121,9 +123,28 @@ def request_to_my_model():
     print(parse_output(data[0]["generated_text"]))
 
 
-def main() -> None:
-    compare_token_id_vs_en(EXAMPLE_INPUT, EXAMPLE_INPUT_EN)
+def main(args) -> None:
+    example_prompt = """Sekolah menengah atas negeri dan swasta tersebar di berbagai wilayah di tanah air. SMA merupakan salah satu pilihan yang banyak dipilih pelajar selepas lulus SMP. Melanjutkan sekolah SMA lebih berpeluang untuk masuk ke perguruan tinggi negeri dengan memilih jurusan kuliah yang diminatinya.
+
+    Pemilihan jurusan bukan hanya dilakukan pada jenjang pendidikan pada SMK. Namun juga berlaku pada siswa siswi yang memilih masuk ke SMA. Jurusan yang terdapat pada SMA, antara lain: jurusan IPA, IPS dan jurusan bahasa.
+    """  # noqa: E49
+    example_prompt = GENERATE_DATA_ANKI_CARDS_JSONL_TEMPLATE.format(
+        input_user=example_prompt, response=""
+    )
+    print(example_prompt)
+    print("=====================================")
+    print("Start Inference")
+    print("=====================================")
+    if args.openai:
+        langchain_inference(example_prompt)
+    else:
+        vanilla_inference(example_prompt, stream=args.stream, n=args.n)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-n", type=int, default=4)
+    parser.add_argument("--stream", action="store_true")
+    parser.add_argument("--openai", action="store_true")
+    args = parser.parse_args()
+    main(args)

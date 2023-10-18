@@ -23,7 +23,7 @@ def post_http_request(
         "n": n,
         "use_beam_search": True,
         "temperature": 0.0,
-        "max_tokens": 1024,
+        "max_tokens": 500,
         "stream": stream,
     }
     response = requests.post(api_url, headers=headers, json=pload, stream=True)
@@ -44,6 +44,25 @@ def get_response(response: requests.Response) -> List[str]:
     data = json.loads(response.content)
     output = data["text"]
     return output
+
+
+def vanilla_inference(input_use: str, stream: bool = True, n: int = 4):
+    api_url = "http://localhost:8000/generate"
+    response = post_http_request(input_use, api_url, n, stream=stream)
+    if stream:
+        num_printed_lines = 0
+        for h in get_streaming_response(response):
+            clear_line(num_printed_lines)
+            num_printed_lines = 0
+            for i, line in enumerate(h):
+                num_printed_lines += 1
+                print(f"Beam candidate {i}:", flush=True)
+                print(line, flush=True)
+    else:
+        output = get_response(response)
+        for i, line in enumerate(output):
+            print(f"Beam candidate {i}:", flush=True)
+            print(line, flush=True)
 
 
 if __name__ == "__main__":

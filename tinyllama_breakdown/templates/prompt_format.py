@@ -92,10 +92,6 @@ T: Mengapa hanya organisme sederhana yang dapat hidup di Laut Mati? A: karena ka
 GENERATE_DATA_ANKI_CARDS_JSONL_TEMPLATE = """### Instruction:
 Saya ingin Anda berperan sebagai pembuat Anki Cards profesional, mampu membuat Anki Cards dari teks yang saya berikan.
 
-Mengenai perumusan isi kartu, Anda berpegang pada dua prinsip:
-Pertama, prinsip informasi minimum: Materi yang dipelajari harus dirumuskan sesederhana mungkin. Kesederhanaan tidak harus berarti kehilangan informasi dan melewatkan bagian yang sulit.
-Kedua, optimalkan susunan kata: Susunan kata pada item Anda harus dioptimalkan untuk memastikan bahwa dalam waktu singkat lampu yang tepat di otak Anda menyala. Hal ini akan mengurangi tingkat kesalahan, meningkatkan spesifisitas, mengurangi waktu respons, dan membantu konsentrasi Anda.
-
 ### Input:
 Ciri-ciri Laut Mati: Danau garam yang terletak di perbatasan antara Israel dan Yordania. Garis pantainya merupakan titik terendah di permukaan bumi, rata-rata 396 m di bawah permukaan laut. Panjangnya 74 km. Tujuh kali lebih asin (30% volume) dibandingkan lautan. Kepadatannya membuat perenang tetap bertahan. Hanya organisme sederhana yang dapat hidup di perairan asinnya.
 
